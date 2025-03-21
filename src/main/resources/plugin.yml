@@ -1,0 +1,4 @@
+name: GeoLoc
+version: '1.0-SNAPSHOT'
+main: dev.tserato.geoloc.GeoLoc
+api-version: '1.21'
