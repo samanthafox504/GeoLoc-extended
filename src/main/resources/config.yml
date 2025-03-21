@@ -1,0 +1,13 @@
+# GeoLoc Configuration
+
+# API settings
+api:
+  timeout: 5000  # Timeout in milliseconds
+
+# Display settings
+display:
+  join-message: true  # Whether to show join messages with location
+
+# Language settings
+language:
+  default: "en"  # Default language (en, de, etc.)

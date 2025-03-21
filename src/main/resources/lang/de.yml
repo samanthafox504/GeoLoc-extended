@@ -1,0 +1,29 @@
+# GeoLoc Plugin Nachrichten - Deutsch
+# Sie können Farbcodes mit & verwenden (z.B. &a für grün, &c für rot)
+# Verfügbare Platzhalter:
+# {player} - Spielername
+# {city} - Stadt
+# {region} - Region/Bundesland
+# {country} - Land
+# {localTime} - Lokale Zeit im Format HH:mm:ss
+
+# Präfix für Nachrichten
+prefix: "&c&lGeoLoc &7&l→ &r"
+
+# Beitrittsnachricht (an alle Spieler)
+join-message: "&aSpieler &e{player} &aist aus &6{city}, {region}, {country} &azu uns gestoßen! Dort ist es gerade &b{localTime}&a."
+
+# Befehlsnachrichten
+command:
+  reload-success: "&aGeoLoc Konfiguration wurde erfolgreich neu geladen!"
+  no-permission: "&cDu hast keine Berechtigung, diesen Befehl zu verwenden."
+  location: "&aSpieler &e{player} &akommt aus &6{city}, {region}, {country}&a! Lokale Zeit: &b{localTime}"
+  player-not-found: "&cSpieler &e{player} &cwurde nicht gefunden oder ist offline."
+  no-ip: "&cKonnte keine IP-Adresse für Spieler &e{player} &cerhalten"
+  no-geolocation: "&cKonnte keine Geolokalisierungsdaten für &e{player} &cabrufen"
+
+# Protokollnachrichten (nur Konsole)
+log:
+  player-connected: "{player} hat sich verbunden von: {city}, {region}, {country} (Lokale Zeit: {localTime})"
+  no-ip: "Konnte keine IP-Adresse für Spieler erhalten: {player}"
+  no-geolocation: "Konnte keine Geolokalisierungsdaten für Spieler abrufen: {player}"

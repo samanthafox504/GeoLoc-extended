@@ -1,4 +1,23 @@
 name: GeoLoc
-version: '1.0-SNAPSHOT'
+version: '1.0'
 main: dev.tserato.geoloc.GeoLoc
-api-version: '1.21'
+api-version: 1.13
+authors: [Tserato]
+description: A plugin that provides geolocation information for players
+
+commands:
+  geoloc:
+    description: Main command for the GeoLoc plugin
+    usage: /<command> [reload]
+    permission: geoloc.use
+
+permissions:
+  geoloc.use:
+    description: Allows using the basic GeoLoc commands
+    default: true
+  geoloc.admin:
+    description: Allows reloading the GeoLoc configuration
+    default: op
+  geoloc.see:
+    description: Allows seeing geolocation information on join
+    default: true
