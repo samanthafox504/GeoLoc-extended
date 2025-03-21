@@ -5,7 +5,6 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.tserato.geoloc.GeoLoc;
 import dev.tserato.geoloc.GeoLocation;
-import dev.tserato.geoloc.language.LanguageManager;
 import dev.tserato.geoloc.request.RequestManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -14,36 +13,51 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 
 public class ConfigManager {
-    private final GeoLoc plugin;
-    private FileConfiguration config;
-    private LanguageManager languageManager;
 
-    public ConfigManager(GeoLoc plugin) {
+    private final JavaPlugin plugin;
+    private FileConfiguration config;
+    private File messagesFile;
+    private FileConfiguration messagesConfig;
+
+    public ConfigManager(JavaPlugin plugin) {
         this.plugin = plugin;
-        reloadPluginConfig();
+        setUp();
     }
 
-    public void reloadPluginConfig() {
-        // Save default config if it doesn't exist
+    public void setUp() {
+        // Set up main config
         plugin.saveDefaultConfig();
+        this.config = plugin.getConfig();
 
-        // Reload config
-        plugin.reloadConfig();
-        config = plugin.getConfig();
+        // Set up messages config
+        createMessagesConfig();
+    }
 
-        // Get language settings
-        String defaultLang = config.getString("language.default", "en");
+    private void createMessagesConfig() {
+        messagesFile = new File(plugin.getDataFolder(), "messages.yml");
 
-        // Initialize or reload language manager
-        if (languageManager == null) {
-            languageManager = new LanguageManager(plugin, defaultLang);
-        } else {
-            languageManager.reloadLanguages();
+        if (!messagesFile.exists()) {
+            messagesFile.getParentFile().mkdirs();
+            plugin.saveResource("messages.yml", false);
+        }
+
+        messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
+
+        // Load default messages from resource if available
+        InputStream defaultMessages = plugin.getResource("messages.yml");
+        if (defaultMessages != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
+                    new InputStreamReader(defaultMessages, StandardCharsets.UTF_8));
+            messagesConfig.setDefaults(defaultConfig);
         }
     }
 
@@ -78,8 +92,7 @@ public class ConfigManager {
                                     if (targetPlayer == null) {
                                         // Player not found
                                         Component errorMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                                prefix + configManager.getMessage("command.player-not-found")
-                                                        .replace("{player}", playerName));
+                                                prefix + "&cPlayer &e" + playerName + " &cnot found or offline.");
                                         ctx.getSource().getSender().sendMessage(errorMessage);
                                         return Command.SINGLE_SUCCESS;
                                     }
@@ -88,8 +101,7 @@ public class ConfigManager {
                                     InetSocketAddress ipSocket = targetPlayer.getAddress();
                                     if (ipSocket == null) {
                                         Component errorMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                                prefix + configManager.getMessage("command.no-ip")
-                                                        .replace("{player}", playerName));
+                                                prefix + "&cCouldn't get IP address for player &e" + playerName);
                                         ctx.getSource().getSender().sendMessage(errorMessage);
                                         return Command.SINGLE_SUCCESS;
                                     }
@@ -101,8 +113,7 @@ public class ConfigManager {
 
                                     if (geoLocation == null) {
                                         Component errorMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                                prefix + configManager.getMessage("command.no-geolocation")
-                                                        .replace("{player}", playerName));
+                                                prefix + "&cCouldn't get geolocation data for &e" + playerName);
                                         ctx.getSource().getSender().sendMessage(errorMessage);
                                         return Command.SINGLE_SUCCESS;
                                     }
@@ -128,19 +139,42 @@ public class ConfigManager {
                 .build();
     }
 
+    public void reloadPluginConfig() {
+        // Reload main config
+        plugin.reloadConfig();
+        this.config = plugin.getConfig();
+
+        // Reload messages config
+        if (messagesFile != null) {
+            messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
+
+            // Reload defaults
+            InputStream defaultMessages = plugin.getResource("messages.yml");
+            if (defaultMessages != null) {
+                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
+                        new InputStreamReader(defaultMessages, StandardCharsets.UTF_8));
+                messagesConfig.setDefaults(defaultConfig);
+            }
+        }
+    }
+
     public boolean isJoinMessageEnabled() {
-        return config.getBoolean("display.join-message", true);
+        if (config == null) {
+            setUp();
+        }
+        return config != null && config.getBoolean("join-message-enabled", false);
     }
 
     public String getMessage(String path) {
-        return languageManager.getMessage(path);
+        if (messagesConfig == null) {
+            createMessagesConfig();
+        }
+
+        String defaultMessage = "&cMissing message: " + path;
+        return messagesConfig != null ? messagesConfig.getString(path, defaultMessage) : defaultMessage;
     }
 
     public String getPrefix() {
-        return languageManager.getPrefix();
-    }
-
-    public String getDefaultLanguage() {
-        return config.getString("language.default", "en");
+        return config.getString("prefix", "&8[&bGeoLoc&8] ");
     }
 }

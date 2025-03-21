@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="GeoLoc:jar">
+    <output-path>$PROJECT_DIR$/../paperservertest-1.21.4/plugins</output-path>
+    <root id="archive" name="GeoLoc.jar">
+      <element id="module-output" name="GeoLoc.main" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
+    </root>
+  </artifact>
+</component>

@@ -1,13 +1,10 @@
-# GeoLoc Configuration
+# GeoLoc Plugin Configuration
 
-# API settings
-api:
-  timeout: 5000  # Timeout in milliseconds
+# Set to true to display a welcome message to players with their location
+# Set to false to disable the welcome message
+# The actual message content is in messages.yml
+join-message-enabled: true
 
-# Display settings
-display:
-  join-message: true  # Whether to show join messages with location
-
-# Language settings
-language:
-  default: "en"  # Default language (en, de, etc.)
+# Permissions:
+# geoloc.admin - Allows reloading the config
+# geoloc.see - Allows seeing the join message (if enabled)

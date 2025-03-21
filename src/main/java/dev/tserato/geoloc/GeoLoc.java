@@ -1,20 +1,19 @@
 package dev.tserato.geoloc;
 
 import dev.tserato.geoloc.config.ConfigManager;
+import dev.tserato.geoloc.expansion.PAPIExpansion;
 import dev.tserato.geoloc.listener.EventListener;
-import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.List;
-
 public final class GeoLoc extends JavaPlugin {
 
     private EventListener eventListener;
     private ConfigManager configManager;
+    private PAPIExpansion papiExpansion;
 
     @Override
     public void onEnable() {
@@ -30,6 +29,10 @@ public final class GeoLoc extends JavaPlugin {
             final Commands commands = event.registrar();
             commands.register(ConfigManager.createGeoLocCommand(configManager, this));
         });
+
+        papiExpansion = new PAPIExpansion(this, configManager);
+
+        papiExpansion.register();
 
         getLogger().info("GeoLoc plugin has been enabled!");
     }

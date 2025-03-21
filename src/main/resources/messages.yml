@@ -1,6 +1,6 @@
-# GeoLoc Plugin Messages - English
+# GeoLoc Plugin Messages
 # You can use color codes with & (e.g. &a for green, &c for red)
-# Available placeholders:
+# Available placeholders for join-message:
 # {player} - Player name
 # {city} - City
 # {region} - Region/State
@@ -18,12 +18,16 @@ command:
   reload-success: "&aGeoLoc configuration has been reloaded successfully!"
   no-permission: "&cYou don't have permission to use this command."
   location: "&aPlayer &e{player} &ais from &6{city}, {region}, {country}&a! Local time: &b{localTime}"
-  player-not-found: "&cPlayer &e{player} &cnot found or offline."
-  no-ip: "&cCouldn't get IP address for player &e{player}"
-  no-geolocation: "&cCouldn't get geolocation data for &e{player}"
 
 # Log messages (console only)
 log:
   player-connected: "{player} connected from: {city}, {region}, {country} (Local time: {localTime})"
   no-ip: "Could not get IP address for player: {player}"
   no-geolocation: "Could not get geolocation data for player: {player}"
+
+placeholder:
+  full: "{city}, {region}, {country}, {localTime}"
+  city: "{city}"
+  region: "{region}"
+  country: "{country}"
+  localTime: "{localTime}"
