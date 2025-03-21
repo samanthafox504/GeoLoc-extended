@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: net.kyori:adventure-text-serializer-json:4.18.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="net.kyori" artifactId="adventure-text-serializer-json" version="4.18.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.kyori/adventure-text-serializer-json/4.18.0/841097a15c972b11c20c931f76ef0d2387c7af97/adventure-text-serializer-json-4.18.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

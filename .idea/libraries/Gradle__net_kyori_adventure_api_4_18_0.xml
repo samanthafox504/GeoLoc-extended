@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: net.kyori:adventure-api:4.18.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="net.kyori" artifactId="adventure-api" version="4.18.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.kyori/adventure-api/4.18.0/2c26e57011830cb86f86b9f9d936fcffdf43e8b8/adventure-api-4.18.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
