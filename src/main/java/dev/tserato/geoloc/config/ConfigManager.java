@@ -91,8 +91,8 @@ public class ConfigManager {
                                     String prefix = configManager.getPrefix();
                                     if (targetPlayer == null) {
                                         // Player not found
-                                        Component errorMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                                prefix + "&cPlayer &e" + playerName + " &cnot found or offline.");
+                                        String playerNotFoundMessageTemplate = configManager.getMessage("error.player-not-found");
+                                        String errorMessage = prefix + playerNotFoundMessageTemplate.replace("{player}", playerName);
                                         ctx.getSource().getSender().sendMessage(errorMessage);
                                         return Command.SINGLE_SUCCESS;
                                     }
@@ -100,8 +100,8 @@ public class ConfigManager {
                                     // Get player's IP address
                                     InetSocketAddress ipSocket = targetPlayer.getAddress();
                                     if (ipSocket == null) {
-                                        Component errorMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                                prefix + "&cCouldn't get IP address for player &e" + playerName);
+                                        String ipNotFoundMessageTemplate = configManager.getMessage("error.ip-not-found");
+                                        String errorMessage = prefix + ipNotFoundMessageTemplate.replace("{player}", playerName);
                                         ctx.getSource().getSender().sendMessage(errorMessage);
                                         return Command.SINGLE_SUCCESS;
                                     }
@@ -112,8 +112,8 @@ public class ConfigManager {
                                     GeoLocation geoLocation = RequestManager.getGeoLocationData(ip);
 
                                     if (geoLocation == null) {
-                                        Component errorMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                                prefix + "&cCouldn't get geolocation data for &e" + playerName);
+                                        String geolocationNotFoundMessageTemplate = configManager.getMessage("error.geolocation-not-found");
+                                        String errorMessage = prefix + geolocationNotFoundMessageTemplate.replace("{player}", playerName);
                                         ctx.getSource().getSender().sendMessage(errorMessage);
                                         return Command.SINGLE_SUCCESS;
                                     }
