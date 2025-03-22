@@ -1,6 +1,7 @@
 package dev.tserato.geoloc.expansion;
 
 import dev.tserato.geoloc.config.ConfigManager;
+import dev.tserato.geoloc.config.DefaultLocationValueHandler;
 import dev.tserato.geoloc.request.RequestManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
@@ -64,17 +65,17 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
         // Handle cases where the request fails
         if (fullRequest.equals("Unknown")) {
-            return "Unknown";
+            return DefaultLocationValueHandler.getDefaultLocationValue();
         }
 
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
         // Ensure we have all parts
-        String country = parts.length > 0 ? parts[0] : "Unknown";
-        String region = parts.length > 1 ? parts[1] : "Unknown";
-        String city = parts.length > 2 ? parts[2] : "Unknown";
-        String localTime = parts.length > 3 ? parts[3] : "Unknown";
+        String country = parts.length > 0 ? parts[0] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String region = parts.length > 1 ? parts[1] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String city = parts.length > 2 ? parts[2] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String localTime = parts.length > 3 ? parts[3] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String fullMessageTemplate = configManager.getMessage("placeholder.full");
@@ -92,13 +93,13 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
         // Handle cases where the request fails
         if (fullRequest.equals("Unknown")) {
-            return "Unknown";
+            return DefaultLocationValueHandler.getDefaultLocationValue();
         }
 
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String city = parts.length > 2 ? parts[2] : "Unknown";
+        String city = parts.length > 2 ? parts[2] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String cityMessageTemplate = configManager.getMessage("placeholder.city");
@@ -113,13 +114,13 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
         // Handle cases where the request fails
         if (fullRequest.equals("Unknown")) {
-            return "Unknown";
+            return DefaultLocationValueHandler.getDefaultLocationValue();
         }
 
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String region = parts.length > 1 ? parts[1] : "Unknown";
+        String region = parts.length > 1 ? parts[1] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String regionMessageTemplate = configManager.getMessage("placeholder.region");
@@ -134,13 +135,13 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
         // Handle cases where the request fails
         if (fullRequest.equals("Unknown")) {
-            return "Unknown";
+            return DefaultLocationValueHandler.getDefaultLocationValue();
         }
 
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String country = parts.length > 0 ? parts[0] : "Unknown";
+        String country = parts.length > 0 ? parts[0] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String countryMessageTemplate = configManager.getMessage("placeholder.country");
@@ -156,13 +157,13 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
         // Handle cases where the request fails
         if (fullRequest.equals("Unknown")) {
-            return "Unknown";
+            return DefaultLocationValueHandler.getDefaultLocationValue();
         }
 
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String localTime = parts.length > 3 ? parts[3] : "Unknown";
+        String localTime = parts.length > 3 ? parts[3] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String localTimeMessageTemplate = configManager.getMessage("placeholder.localTime");

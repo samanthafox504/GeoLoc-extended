@@ -2,6 +2,7 @@ package dev.tserato.geoloc.request;
 
 import com.google.gson.Gson;
 import dev.tserato.geoloc.GeoLocation;
+import dev.tserato.geoloc.config.DefaultLocationValueHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,27 +37,27 @@ public class RequestManager {
                     geoLocation.getCity() + ", " +
                     geoLocation.getLocalTime();
         }
-        return "Unknown";
+        return DefaultLocationValueHandler.getDefaultLocationValue();
     }
 
     public static String getCityGeoLocation(String ipAddress) {
         GeoLocation geoLocation = getGeoLocationData(ipAddress);
-        return (geoLocation != null) ? geoLocation.getCity() : "Unknown";
+        return (geoLocation != null) ? geoLocation.getCity() : DefaultLocationValueHandler.getDefaultLocationValue();
     }
 
     public static String getRegionGeoLocation(String ipAddress) {
         GeoLocation geoLocation = getGeoLocationData(ipAddress);
-        return (geoLocation != null) ? geoLocation.getRegion() : "Unknown";
+        return (geoLocation != null) ? geoLocation.getRegion() : DefaultLocationValueHandler.getDefaultLocationValue();
     }
 
     public static String getCountryGeoLocation(String ipAddress) {
         GeoLocation geoLocation = getGeoLocationData(ipAddress);
-        return (geoLocation != null) ? geoLocation.getCountry() : "Unknown";
+        return (geoLocation != null) ? geoLocation.getCountry() : DefaultLocationValueHandler.getDefaultLocationValue();
     }
 
     public static String getLocalTimeGeoLocation(String ipAddress) {
         GeoLocation geoLocation = getGeoLocationData(ipAddress);
-        return (geoLocation != null) ? geoLocation.getLocalTime() : "Unknown";
+        return (geoLocation != null) ? geoLocation.getLocalTime() : DefaultLocationValueHandler.getDefaultLocationValue();
     }
 
     public static String getPartialGeoLocation(String ipAddress, boolean includeCountry,

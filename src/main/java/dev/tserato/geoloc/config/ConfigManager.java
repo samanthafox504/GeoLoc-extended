@@ -31,6 +31,9 @@ public class ConfigManager {
     public ConfigManager(JavaPlugin plugin) {
         this.plugin = plugin;
         setUp();
+
+        // Initialize the DefaultLocationValueHandler with this config manager
+        DefaultLocationValueHandler.initialize(this);
     }
 
     public void setUp() {
@@ -211,10 +214,12 @@ public class ConfigManager {
             return Command.SINGLE_SUCCESS;
         }
 
+        // Get default location value from the handler instead of directly from config
+        String defaultLocationValue = DefaultLocationValueHandler.getDefaultLocationValue();
+
         // Determine which message template to use based on info type
         String messageKey;
         String value;
-        String defaultLocationValue = configManager.getMessage("default-location-value");
 
         switch (infoType) {
             case "city":
@@ -279,6 +284,9 @@ public class ConfigManager {
                 messagesConfig.setDefaults(defaultConfig);
             }
         }
+
+        // Refresh the default location value in the handler
+        DefaultLocationValueHandler.refreshDefaultValue();
     }
 
     public boolean isJoinMessageEnabled() {

@@ -3,6 +3,7 @@ package dev.tserato.geoloc.listener;
 import dev.tserato.geoloc.GeoLoc;
 import dev.tserato.geoloc.GeoLocation;
 import dev.tserato.geoloc.config.ConfigManager;
+import dev.tserato.geoloc.config.DefaultLocationValueHandler;
 import dev.tserato.geoloc.request.RequestManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -48,7 +49,7 @@ public class EventListener implements Listener {
             return;
         }
 
-        String defaultLocationValue = configManager.getMessage("default-location-value");
+        String defaultLocationValue = DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Always log to console
         plugin.getLogger().info(configManager.getMessage("log.player-connected")

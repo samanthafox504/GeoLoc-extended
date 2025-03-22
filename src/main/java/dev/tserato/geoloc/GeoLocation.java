@@ -1,5 +1,8 @@
 package dev.tserato.geoloc;
 
+import dev.tserato.geoloc.config.ConfigManager;
+import dev.tserato.geoloc.config.DefaultLocationValueHandler;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +27,7 @@ public class GeoLocation {
 
     public String getLocalTime() {
         if (timezone == null || timezone.isEmpty()) {
-            return "Unknown";
+            return DefaultLocationValueHandler.getDefaultLocationValue();
         }
 
         try {
@@ -32,7 +35,7 @@ public class GeoLocation {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             return now.format(formatter);
         } catch (Exception e) {
-            return "Unknown";
+            return DefaultLocationValueHandler.getDefaultLocationValue();
         }
     }
 }
