@@ -23,6 +23,8 @@ public final class GeoLoc extends JavaPlugin {
         // Then set up the event listener which depends on ConfigManager
         eventListener = new EventListener(this, configManager);
 
+        new Metrics(this, 21836);
+
         // Register commands
         LifecycleEventManager<Plugin> manager = this.getLifecycleManager();
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
