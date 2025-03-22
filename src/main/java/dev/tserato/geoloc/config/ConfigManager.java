@@ -75,68 +75,190 @@ public class ConfigManager {
                 )
                 .then(Commands.literal("geolocation")
                         .then(Commands.argument("player", StringArgumentType.word())
-                                .suggests((ctx, builder) -> {
-                                    // Get all online players and suggest them
-                                    plugin.getServer().getOnlinePlayers().forEach(player -> {
-                                        if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
-                                            builder.suggest(player.getName());
-                                        }
-                                    });
-                                    return builder.buildFuture();
-                                })
                                 .executes(ctx -> {
-                                    String playerName = StringArgumentType.getString(ctx, "player");
-                                    Player targetPlayer = plugin.getServer().getPlayer(playerName);
-
-                                    String prefix = configManager.getPrefix();
-                                    if (targetPlayer == null) {
-                                        // Player not found
-                                        String playerNotFoundMessageTemplate = configManager.getMessage("error.player-not-found");
-                                        String errorMessage = prefix + playerNotFoundMessageTemplate.replace("{player}", playerName);
-                                        ctx.getSource().getSender().sendMessage(errorMessage);
-                                        return Command.SINGLE_SUCCESS;
-                                    }
-
-                                    // Get player's IP address
-                                    InetSocketAddress ipSocket = targetPlayer.getAddress();
-                                    if (ipSocket == null) {
-                                        String ipNotFoundMessageTemplate = configManager.getMessage("error.ip-not-found");
-                                        String errorMessage = prefix + ipNotFoundMessageTemplate.replace("{player}", playerName);
-                                        ctx.getSource().getSender().sendMessage(errorMessage);
-                                        return Command.SINGLE_SUCCESS;
-                                    }
-
-                                    String ip = ipSocket.getAddress().getHostAddress();
-
-                                    // Get geolocation data
-                                    GeoLocation geoLocation = RequestManager.getGeoLocationData(ip);
-
-                                    if (geoLocation == null) {
-                                        String geolocationNotFoundMessageTemplate = configManager.getMessage("error.geolocation-not-found");
-                                        String errorMessage = prefix + geolocationNotFoundMessageTemplate.replace("{player}", playerName);
-                                        ctx.getSource().getSender().sendMessage(errorMessage);
-                                        return Command.SINGLE_SUCCESS;
-                                    }
-
-                                    // Get location message template and replace placeholders
-                                    String locationTemplate = configManager.getMessage("command.location");
-                                    String formattedMessage = locationTemplate
-                                            .replace("{player}", playerName)
-                                            .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : "Unknown")
-                                            .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : "Unknown")
-                                            .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : "Unknown")
-                                            .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : "Unknown");
-
-                                    // Format location message with prefix
-                                    Component locationMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                            prefix + formattedMessage);
-
-                                    ctx.getSource().getSender().sendMessage(locationMessage);
-                                    return Command.SINGLE_SUCCESS;
+                                    // Handle /geoloc geolocation <player> - return full geolocation data
+                                    return handleGeoLocationCommand(ctx, configManager, plugin, "full", false);
                                 })
+                        )
+                        .then(Commands.literal("full")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation full <player> - return full geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "full", true);
+                                        })
+                                )
+                        )
+                        .then(Commands.literal("city")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation city <player> - return city geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "city", true);
+                                        })
+                                )
+                        )
+                        .then(Commands.literal("region")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation region <player> - return region geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "region", true);
+                                        })
+                                )
+                        )
+                        .then(Commands.literal("country")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation country <player> - return country geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "country", true);
+                                        })
+                                )
+                        )
+                        .then(Commands.literal("localTime")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation localTime <player> - return local time geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "localTime", true);
+                                        })
+                                )
                         )
                 )
                 .build();
+    }
+
+    // Helper method to handle all geolocation commands
+    private static int handleGeoLocationCommand(com.mojang.brigadier.context.CommandContext<CommandSourceStack> ctx,
+                                                ConfigManager configManager,
+                                                GeoLoc plugin,
+                                                String infoType,
+                                                boolean suggestPlayers) {
+        String playerName = StringArgumentType.getString(ctx, "player");
+        Player targetPlayer = plugin.getServer().getPlayer(playerName);
+
+        String prefix = configManager.getPrefix();
+        if (targetPlayer == null) {
+            // Player not found
+            String playerNotFoundMessageTemplate = configManager.getMessage("error.player-not-found");
+            String errorMessage = prefix + playerNotFoundMessageTemplate.replace("{player}", playerName);
+            Component errorComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(errorMessage);
+            ctx.getSource().getSender().sendMessage(errorComponent);
+            return Command.SINGLE_SUCCESS;
+        }
+
+        // Get player's IP address
+        InetSocketAddress ipSocket = targetPlayer.getAddress();
+        if (ipSocket == null) {
+            String ipNotFoundMessageTemplate = configManager.getMessage("error.ip-not-found");
+            String errorMessage = prefix + ipNotFoundMessageTemplate.replace("{player}", playerName);
+            Component errorComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(errorMessage);
+            ctx.getSource().getSender().sendMessage(errorComponent);
+            return Command.SINGLE_SUCCESS;
+        }
+
+        String ip = ipSocket.getAddress().getHostAddress();
+
+        // Get geolocation data
+        GeoLocation geoLocation = RequestManager.getGeoLocationData(ip);
+
+        if (geoLocation == null) {
+            String geolocationNotFoundMessageTemplate = configManager.getMessage("error.geolocation-not-found");
+            String errorMessage = prefix + geolocationNotFoundMessageTemplate.replace("{player}", playerName);
+            Component errorComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(errorMessage);
+            ctx.getSource().getSender().sendMessage(errorComponent);
+            return Command.SINGLE_SUCCESS;
+        }
+
+        // Determine which message template to use based on info type
+        String messageKey;
+        String value;
+
+        switch (infoType) {
+            case "city":
+                messageKey = "command.location-city";
+                value = geoLocation.getCity() != null ? geoLocation.getCity() : "Unknown";
+                break;
+            case "region":
+                messageKey = "command.location-region";
+                value = geoLocation.getRegion() != null ? geoLocation.getRegion() : "Unknown";
+                break;
+            case "country":
+                messageKey = "command.location-country";
+                value = geoLocation.getCountry() != null ? geoLocation.getCountry() : "Unknown";
+                break;
+            case "localTime":
+                messageKey = "command.location-time";
+                value = geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : "Unknown";
+                break;
+            case "full":
+            default:
+                messageKey = "command.location";
+                // For full info, we'll use the existing template with all replacements
+                String locationTemplate = configManager.getMessage(messageKey);
+                String formattedMessage = locationTemplate
+                        .replace("{player}", playerName)
+                        .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : "Unknown")
+                        .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : "Unknown")
+                        .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : "Unknown")
+                        .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : "Unknown");
+
+                Component locationMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(prefix + formattedMessage);
+                ctx.getSource().getSender().sendMessage(locationMessage);
+                return Command.SINGLE_SUCCESS;
+        }
+
+        // For specific info types (not full)
+        String messageTemplate = configManager.getMessage(messageKey);
+        String formattedMessage = messageTemplate
+                .replace("{player}", playerName)
+                .replace("{value}", value);
+
+        Component message = LegacyComponentSerializer.legacyAmpersand().deserialize(prefix + formattedMessage);
+        ctx.getSource().getSender().sendMessage(message);
+
+        return Command.SINGLE_SUCCESS;
     }
 
     public void reloadPluginConfig() {

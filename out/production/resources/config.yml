@@ -1,0 +1,10 @@
+# GeoLoc Plugin Configuration
+
+# Set to true to display a welcome message to players with their location
+# Set to false to disable the welcome message
+# The actual message content is in messages.yml
+join-message-enabled: true
+
+# Permissions:
+# geoloc.admin - Allows reloading the config
+# geoloc.see - Allows seeing the join message (if enabled)
