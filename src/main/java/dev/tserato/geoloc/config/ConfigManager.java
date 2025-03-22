@@ -214,23 +214,24 @@ public class ConfigManager {
         // Determine which message template to use based on info type
         String messageKey;
         String value;
+        String defaultLocationValue = configManager.getMessage("default-location-value");
 
         switch (infoType) {
             case "city":
                 messageKey = "command.location-city";
-                value = geoLocation.getCity() != null ? geoLocation.getCity() : "Unknown";
+                value = geoLocation.getCity() != null ? geoLocation.getCity() : defaultLocationValue;
                 break;
             case "region":
                 messageKey = "command.location-region";
-                value = geoLocation.getRegion() != null ? geoLocation.getRegion() : "Unknown";
+                value = geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue;
                 break;
             case "country":
                 messageKey = "command.location-country";
-                value = geoLocation.getCountry() != null ? geoLocation.getCountry() : "Unknown";
+                value = geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue;
                 break;
             case "localTime":
                 messageKey = "command.location-time";
-                value = geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : "Unknown";
+                value = geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue;
                 break;
             case "full":
             default:
@@ -239,10 +240,10 @@ public class ConfigManager {
                 String locationTemplate = configManager.getMessage(messageKey);
                 String formattedMessage = locationTemplate
                         .replace("{player}", playerName)
-                        .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : "Unknown")
-                        .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : "Unknown")
-                        .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : "Unknown")
-                        .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : "Unknown");
+                        .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : defaultLocationValue)
+                        .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue)
+                        .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue)
+                        .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue);
 
                 Component locationMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(prefix + formattedMessage);
                 ctx.getSource().getSender().sendMessage(locationMessage);

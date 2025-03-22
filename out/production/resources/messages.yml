@@ -7,24 +7,52 @@
 # {country} - Country
 # {localTime} - Local time in HH:mm:ss format
 
+# Possible placeholders for every message is defined by ALL CAPS
+
 # Prefix for messages
+# NONE
 prefix: "&c&lGeoLoc &7&l→ &r"
 
 # Join message (broadcasts to all players)
+# PLAYER, CITY, REGION, COUNTRY, LOCALTIME
 join-message: "&aPlayer &e{player} &ajoined us from &6{city}, {region}, {country}&a! It's &b{localTime} &athere."
 
 # Command messages
 command:
+  # NONE
   reload-success: "&aGeoLoc configuration has been reloaded successfully!"
+  # NONE
   no-permission: "&cYou don't have permission to use this command."
+  # PLAYER, CITY, REGION, COUNTRY, LOCALTIME
   location: "&aPlayer &e{player} &ais from &6{city}, {region}, {country}&a! Local time: &b{localTime}"
 
 # Log messages (console only)
 log:
+  # PLAYER, CITY, REGION, COUNTRY, LOCALTIME
   player-connected: "{player} connected from: {city}, {region}, {country} (Local time: {localTime})"
+  # PLAYER
   no-ip: "Could not get IP address for player: {player}"
+  # PLAYER
   no-geolocation: "Could not get geolocation data for player: {player}"
 
+error:
+  # PLAYER
+  player-not-found: "&c{player} can't be found or isn't online."
+  # PLAYER
+  ip-not-found: "&cCouldn't get IP from {player}."
+  # PLAYER
+  geolocation-not-found: "&cCouldn't get geolocation data from {player}."
+
+# Possible Placeholders:
+#  - %geoloc_full% -> Returns all geolocation information from the player
+#  - %geoloc_city% -> Returns the city of the player
+#  - %geoloc_region% -> Returns the region of the player
+#  - %geoloc_country% -> Returns the country of the player
+#  - %geoloc_localTime% -> Retunrs the local time of the player (calculated by region)
+
+# The return format of all placeholders can be defined below
+
+# PlaceholderAPI return format
 placeholder:
   full: "{city}, {region}, {country}, {localTime}"
   city: "{city}"

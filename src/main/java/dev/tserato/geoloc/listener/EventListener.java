@@ -48,13 +48,15 @@ public class EventListener implements Listener {
             return;
         }
 
+        String defaultLocationValue = configManager.getMessage("default-location-value");
+
         // Always log to console
         plugin.getLogger().info(configManager.getMessage("log.player-connected")
                 .replace("{player}", player.getName())
-                .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : "Unknown")
-                .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : "Unknown")
-                .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : "Unknown")
-                .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : "Unknown"));
+                .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : defaultLocationValue)
+                .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue)
+                .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue)
+                .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue));
 
         // Send join message if enabled in config
         if (configManager.isJoinMessageEnabled() && player.hasPermission("geoloc.see")) {
@@ -65,10 +67,10 @@ public class EventListener implements Listener {
             // Replace placeholders with actual data
             String formattedMessage = prefix + messageTemplate
                     .replace("{player}", player.getName())
-                    .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : "Unknown")
-                    .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : "Unknown")
-                    .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : "Unknown")
-                    .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : "Unknown");
+                    .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : defaultLocationValue)
+                    .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue)
+                    .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue)
+                    .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue);
 
             // Convert to component with color codes
             Component message = LegacyComponentSerializer.legacyAmpersand().deserialize(formattedMessage);
