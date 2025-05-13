@@ -14,7 +14,7 @@ public class RequestManager {
 
     public static GeoLocation getGeoLocationData(String ipAddress) {
         try {
-            String urlString = "http://ip-api.com/json/" + ipAddress+ "?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as";
+            String urlString = "http://ip-api.com/json/" + ipAddress + "?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as";
             HttpURLConnection connection = (HttpURLConnection) new URL(urlString).openConnection();
             connection.setRequestMethod("GET");
 
@@ -54,9 +54,26 @@ public class RequestManager {
         return (geoLocation != null) ? geoLocation.getRegion() : DefaultLocationValueHandler.getDefaultLocationValue();
     }
 
+    public static String getRegionCodeGeoLocation(String ipAddress) {
+        GeoLocation geoLocation = getGeoLocationData(ipAddress);
+        return (geoLocation != null) ? geoLocation.getRegionCode() : DefaultLocationValueHandler.getDefaultLocationValue();
+    }
+
     public static String getCountryGeoLocation(String ipAddress) {
         GeoLocation geoLocation = getGeoLocationData(ipAddress);
         return (geoLocation != null) ? geoLocation.getCountry() : DefaultLocationValueHandler.getDefaultLocationValue();
+    }
+    public static String getCountryCodeGeoLocation(String ipAddress) {
+        GeoLocation geoLocation = getGeoLocationData(ipAddress);
+        return (geoLocation != null) ? geoLocation.getCountryCode() : DefaultLocationValueHandler.getDefaultLocationValue();
+    }
+    public static String getContinentGeoLocation(String ipAddress) {
+        GeoLocation geoLocation = getGeoLocationData(ipAddress);
+        return (geoLocation != null) ? geoLocation.getContinent() : DefaultLocationValueHandler.getDefaultLocationValue();
+    }
+    public static String getContinentCodeGeoLocation(String ipAddress) {
+        GeoLocation geoLocation = getGeoLocationData(ipAddress);
+        return (geoLocation != null) ? geoLocation.getContinentCode() : DefaultLocationValueHandler.getDefaultLocationValue();
     }
 
     public static String getLocalTimeGeoLocation(String ipAddress) {
