@@ -1,0 +1,71 @@
+# GeoLoc Plugin Messages
+# You can use color codes with & (e.g. &a for green, &c for red)
+# Available placeholders for join-message:
+# {player} - Player name
+# {city} - City
+# {region} - Region/State
+# {country} - Country
+# {localTime} - Local time in HH:mm:ss format
+
+# Available placeholders for every message is defined by ALL CAPS
+
+# Prefix for messages
+# NONE
+prefix: "&c&lGeoLoc &7&l→ &r"
+
+# Default value when the geolocation of the player returns null (when they are in a local network)
+# NONE
+default-location-value: "Unknown"
+
+# Join message (broadcasts to all players)
+# PLAYER, CITY, REGION, COUNTRY, LOCALTIME
+join-message: "&aPlayer &e{player} &ajoined us from &6{city}, {region}, {country}&a! It's &b{localTime} &athere."
+
+# Command messages
+command:
+  # NONE
+  reload-success: "&aGeoLoc configuration has been reloaded successfully!"
+  # NONE
+  no-permission: "&cYou don't have permission to use this command."
+  # PLAYER, CITY, REGION, COUNTRY, LOCALTIME, CONTINENT
+  location: "&aPlayer &e{player} &ais from &6{city}, {region}, {country}&a! Local time: &b{localTime}"
+
+# Log messages (console only)
+log:
+  # PLAYER, CITY, REGION, COUNTRY, LOCALTIME
+  player-connected: "{player} connected from: {city}, {region}, {country}, {continent} (Local time: {localTime})"
+  # PLAYER
+  no-ip: "Could not get IP address for player: {player}"
+  # PLAYER
+  no-geolocation: "Could not get geolocation data for player: {player}"
+
+error:
+  # PLAYER
+  player-not-found: "&c{player} can't be found or isn't online."
+  # PLAYER
+  ip-not-found: "&cCouldn't get IP from {player}."
+  # PLAYER
+  geolocation-not-found: "&cCouldn't get geolocation data from {player}."
+
+# Possible Placeholders:
+#  - %geoloc_full% -> Returns all geolocation information from the player
+#  - %geoloc_city% -> Returns the city of the player
+#  - %geoloc_region% -> Returns the region of the player
+#  - %geoloc_country% -> Returns the country of the player
+#  - %geoloc_localTime% -> Retunrs the local time of the player (calculated by region)
+#  - %geoloc_continent%
+#  - %geoloc_continentCode%
+
+# The return format of all placeholders can be defined below
+
+# PlaceholderAPI return format
+placeholder:
+  full: "{city}, {regionCode}, {region}, {countryCode}, {country}, {continent}, {continentCode}, {localTime}"
+  city: "{city}"
+  region: "{region}"
+  regionCode: "{regionCode}"
+  country: "{country}"
+  countryCode: "{countryCode}"
+  localTime: "{localTime}"
+  continent: "{continent}"
+  continentCode: "{continentCode}"
