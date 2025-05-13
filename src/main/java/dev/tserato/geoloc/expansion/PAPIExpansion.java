@@ -53,11 +53,11 @@ public class PAPIExpansion extends PlaceholderExpansion {
         return switch (params.toLowerCase()) {
             case "full" -> fullRequest(ipAddress);
             case "city" -> cityRequest(ipAddress);
-            case "regionCode" -> regionCodeRequest(ipAddress);
+            case "regioncode" -> regionCodeRequest(ipAddress);
             case "region" -> regionRequest(ipAddress);
-            case "countryCode" -> countryCodeRequest(ipAddress);
+            case "countrycode" -> countryCodeRequest(ipAddress);
             case "country" -> countryRequest(ipAddress);
-            case "continentCode" -> continentCodeRequest(ipAddress);
+            case "continentcode" -> continentCodeRequest(ipAddress);
             case "continent" -> continentRequest(ipAddress);
             case "localtime" -> localTimeRequest(ipAddress);
             default -> "Invalid Placeholder";
