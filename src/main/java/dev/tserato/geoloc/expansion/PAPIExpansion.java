@@ -53,7 +53,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
         return switch (params.toLowerCase()) {
             case "full" -> fullRequest(ipAddress);
             case "city" -> cityRequest(ipAddress);
-            case "regionCode" -> regionRequest(ipAddress);
+            case "regionCode" -> regionCodeRequest(ipAddress);
             case "region" -> regionRequest(ipAddress);
             case "countryCode" -> countryCodeRequest(ipAddress);
             case "country" -> countryRequest(ipAddress);
@@ -140,6 +140,26 @@ public class PAPIExpansion extends PlaceholderExpansion {
         // Replace placeholders with actual values
         return regionMessageTemplate
                 .replace("{region}", region);
+    }
+    public String regionCodeRequest(String ipAddress) {
+        String fullRequest = RequestManager.getFullGeoLocation(ipAddress);
+
+        // Handle cases where the request fails
+        if (fullRequest.equals("Unknown")) {
+            return DefaultLocationValueHandler.getDefaultLocationValue();
+        }
+
+        // Splitting the fullRequest string into parts
+        String[] parts = fullRequest.split(", ");
+
+        String regionCode = parts.length > 5 ? parts[5] : DefaultLocationValueHandler.getDefaultLocationValue();
+
+        // Retrieve formatted message from config
+        String regionMessageTemplate = configManager.getMessage("placeholder.region");
+
+        // Replace placeholders with actual values
+        return regionMessageTemplate
+                .replace("{region}", regionCode);
     }
 
     public String countryRequest(String ipAddress) {
