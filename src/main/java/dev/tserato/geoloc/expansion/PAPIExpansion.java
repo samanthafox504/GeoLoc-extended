@@ -200,7 +200,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
         // Replace placeholders with actual values
         return countryCodeMessageTemplate
-                .replace("{country}", countryCode);
+                .replace("{countryCode}", countryCode);
     }
     public String continentRequest(String ipAddress) {
         String fullRequest = RequestManager.getFullGeoLocation(ipAddress);
