@@ -56,7 +56,11 @@ public class EventListener implements Listener {
                 .replace("{player}", player.getName())
                 .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : defaultLocationValue)
                 .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue)
+                .replace("{regionCode}", geoLocation.getRegionCode() != null ? geoLocation.getRegionCode() : defaultLocationValue)
                 .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue)
+                .replace("{countryCode}", geoLocation.getCountryCode() != null ? geoLocation.getCountryCode() : defaultLocationValue)
+                .replace("{continent}", geoLocation.getContinent() != null ? geoLocation.getContinent() : defaultLocationValue)
+                .replace("{continentCode}", geoLocation.getContinentCode() != null ? geoLocation.getContinentCode() : defaultLocationValue)
                 .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue));
 
         // Send join message if enabled in config
@@ -70,9 +74,12 @@ public class EventListener implements Listener {
                     .replace("{player}", player.getName())
                     .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : defaultLocationValue)
                     .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue)
+                    .replace("{regionCode}", geoLocation.getRegionCode() != null ? geoLocation.getRegionCode() : defaultLocationValue)
                     .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue)
+                    .replace("{countryCode}", geoLocation.getCountryCode() != null ? geoLocation.getCountryCode() : defaultLocationValue)
+                    .replace("{continent}", geoLocation.getContinent() != null ? geoLocation.getContinent() : defaultLocationValue)
+                    .replace("{continentCode}", geoLocation.getContinentCode() != null ? geoLocation.getContinentCode() : defaultLocationValue)
                     .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue);
-
             // Convert to component with color codes
             Component message = LegacyComponentSerializer.legacyAmpersand().deserialize(formattedMessage);
 

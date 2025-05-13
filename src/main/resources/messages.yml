@@ -27,13 +27,13 @@ command:
   reload-success: "&aGeoLoc configuration has been reloaded successfully!"
   # NONE
   no-permission: "&cYou don't have permission to use this command."
-  # PLAYER, CITY, REGION, COUNTRY, LOCALTIME
+  # PLAYER, CITY, REGION, COUNTRY, LOCALTIME, CONTINENT
   location: "&aPlayer &e{player} &ais from &6{city}, {region}, {country}&a! Local time: &b{localTime}"
 
 # Log messages (console only)
 log:
   # PLAYER, CITY, REGION, COUNTRY, LOCALTIME
-  player-connected: "{player} connected from: {city}, {region}, {country} (Local time: {localTime})"
+  player-connected: "{player} connected from: {city}, {region}, {country}, {continent} (Local time: {localTime})"
   # PLAYER
   no-ip: "Could not get IP address for player: {player}"
   # PLAYER
@@ -53,13 +53,19 @@ error:
 #  - %geoloc_region% -> Returns the region of the player
 #  - %geoloc_country% -> Returns the country of the player
 #  - %geoloc_localTime% -> Retunrs the local time of the player (calculated by region)
+#  - %geoloc_continent%
+#  - %geoloc_continentCode%
 
 # The return format of all placeholders can be defined below
 
 # PlaceholderAPI return format
 placeholder:
-  full: "{city}, {region}, {country}, {localTime}"
+  full: "{city}, {regionCode}, {region}, {countryCode}, {country}, {continent}, {continentCode}, {localTime}"
   city: "{city}"
   region: "{region}"
+  regionCode: "{regionCode}"
   country: "{country}"
+  countryCode: "{countryCode}"
   localTime: "{localTime}"
+  continent: "{continent}"
+  continentCode: "{continentCode}"

@@ -14,7 +14,7 @@ public class RequestManager {
 
     public static GeoLocation getGeoLocationData(String ipAddress) {
         try {
-            String urlString = "http://ip-api.com/json/" + ipAddress;
+            String urlString = "http://ip-api.com/json/" + ipAddress+ "?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as";
             HttpURLConnection connection = (HttpURLConnection) new URL(urlString).openConnection();
             connection.setRequestMethod("GET");
 
@@ -32,8 +32,12 @@ public class RequestManager {
     public static String getFullGeoLocation(String ipAddress) {
         GeoLocation geoLocation = getGeoLocationData(ipAddress);
         if (geoLocation != null) {
-            return geoLocation.getCountry() + ", " +
+            return geoLocation.getContinent() + ", " +
+                    geoLocation.getContinentCode() + ", " +
+                    geoLocation.getCountry() + ", " +
+                    geoLocation.getCountryCode() + ", " +
                     geoLocation.getRegion() + ", " +
+                    geoLocation.getRegionCode() + ", " +
                     geoLocation.getCity() + ", " +
                     geoLocation.getLocalTime();
         }

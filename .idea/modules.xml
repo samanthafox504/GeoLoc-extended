@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/GeoLoc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/GeoLoc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dev.tserato.GeoLoc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/dev.tserato.GeoLoc.main.iml" />
     </modules>
   </component>
 </project>

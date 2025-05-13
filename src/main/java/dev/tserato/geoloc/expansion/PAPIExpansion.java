@@ -53,8 +53,12 @@ public class PAPIExpansion extends PlaceholderExpansion {
         return switch (params.toLowerCase()) {
             case "full" -> fullRequest(ipAddress);
             case "city" -> cityRequest(ipAddress);
+            case "regionCode" -> regionRequest(ipAddress);
             case "region" -> regionRequest(ipAddress);
+            case "countryCode" -> countryCodeRequest(ipAddress);
             case "country" -> countryRequest(ipAddress);
+            case "continentCode" -> continentCodeRequest(ipAddress);
+            case "continent" -> continentRequest(ipAddress);
             case "localtime" -> localTimeRequest(ipAddress);
             default -> "Invalid Placeholder";
         };
@@ -72,18 +76,26 @@ public class PAPIExpansion extends PlaceholderExpansion {
         String[] parts = fullRequest.split(", ");
 
         // Ensure we have all parts
-        String country = parts.length > 0 ? parts[0] : DefaultLocationValueHandler.getDefaultLocationValue();
-        String region = parts.length > 1 ? parts[1] : DefaultLocationValueHandler.getDefaultLocationValue();
-        String city = parts.length > 2 ? parts[2] : DefaultLocationValueHandler.getDefaultLocationValue();
-        String localTime = parts.length > 3 ? parts[3] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String continent = parts.length > 0 ? parts[0] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String continentCode = parts.length > 1 ? parts[1] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String country = parts.length > 2 ? parts[2] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String countryCode = parts.length > 3 ? parts[3] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String region = parts.length > 4 ? parts[4] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String regionCode = parts.length > 5 ? parts[5] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String city = parts.length > 6 ? parts[6] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String localTime = parts.length > 7 ? parts[7] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String fullMessageTemplate = configManager.getMessage("placeholder.full");
 
         // Replace placeholders with actual values
         return fullMessageTemplate
+                .replace("{continent}", continent)
+                .replace("{continentCode}", continentCode)
                 .replace("{country}", country)
+                .replace("{countryCode}", countryCode)
                 .replace("{region}", region)
+                .replace("{regionCode}", regionCode)
                 .replace("{city}", city)
                 .replace("{localtime}", localTime);
     }
@@ -99,7 +111,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String city = parts.length > 2 ? parts[2] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String city = parts.length > 6 ? parts[6] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String cityMessageTemplate = configManager.getMessage("placeholder.city");
@@ -120,7 +132,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String region = parts.length > 1 ? parts[1] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String region = parts.length > 4 ? parts[4] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String regionMessageTemplate = configManager.getMessage("placeholder.region");
@@ -141,7 +153,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String country = parts.length > 0 ? parts[0] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String country = parts.length > 2 ? parts[2] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String countryMessageTemplate = configManager.getMessage("placeholder.country");
@@ -149,6 +161,66 @@ public class PAPIExpansion extends PlaceholderExpansion {
         // Replace placeholders with actual values
         return countryMessageTemplate
                 .replace("{country}", country);
+    }
+    public String countryCodeRequest(String ipAddress) {
+        String fullRequest = RequestManager.getFullGeoLocation(ipAddress);
+
+        // Handle cases where the request fails
+        if (fullRequest.equals("Unknown")) {
+            return DefaultLocationValueHandler.getDefaultLocationValue();
+        }
+
+        // Splitting the fullRequest string into parts
+        String[] parts = fullRequest.split(", ");
+
+        String countryCode = parts.length > 3 ? parts[3] : DefaultLocationValueHandler.getDefaultLocationValue();
+
+        // Retrieve formatted message from config
+        String countryCodeMessageTemplate = configManager.getMessage("placeholder.countryCode");
+
+        // Replace placeholders with actual values
+        return countryCodeMessageTemplate
+                .replace("{country}", countryCode);
+    }
+    public String continentRequest(String ipAddress) {
+        String fullRequest = RequestManager.getFullGeoLocation(ipAddress);
+
+        // Handle cases where the request fails
+        if (fullRequest.equals("Unknown")) {
+            return DefaultLocationValueHandler.getDefaultLocationValue();
+        }
+
+        // Splitting the fullRequest string into parts
+        String[] parts = fullRequest.split(", ");
+
+        String continent = parts.length > 0 ? parts[0] : DefaultLocationValueHandler.getDefaultLocationValue();
+
+        // Retrieve formatted message from config
+        String continentMessageTemplate = configManager.getMessage("placeholder.continent");
+
+        // Replace placeholders with actual values
+        return continentMessageTemplate
+                .replace("{continent}", continent);
+    }
+    public String continentCodeRequest(String ipAddress) {
+        String fullRequest = RequestManager.getFullGeoLocation(ipAddress);
+
+        // Handle cases where the request fails
+        if (fullRequest.equals("Unknown")) {
+            return DefaultLocationValueHandler.getDefaultLocationValue();
+        }
+
+        // Splitting the fullRequest string into parts
+        String[] parts = fullRequest.split(", ");
+
+        String continentCode = parts.length > 1 ? parts[1] : DefaultLocationValueHandler.getDefaultLocationValue();
+
+        // Retrieve formatted message from config
+        String continentCodeMessageTemplate = configManager.getMessage("placeholder.continentCode");
+
+        // Replace placeholders with actual values
+        return continentCodeMessageTemplate
+                .replace("{continentCode}", continentCode);
     }
 
 

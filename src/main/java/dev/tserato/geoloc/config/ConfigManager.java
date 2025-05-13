@@ -117,6 +117,23 @@ public class ConfigManager {
                                         })
                                 )
                         )
+                        .then(Commands.literal("regionCode")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation region <player> - return region geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "regionCode", true);
+                                        })
+                                )
+                        )
                         .then(Commands.literal("region")
                                 .then(Commands.argument("player", StringArgumentType.word())
                                         .suggests((ctx, builder) -> {
@@ -131,6 +148,23 @@ public class ConfigManager {
                                         .executes(ctx -> {
                                             // Handle /geoloc geolocation region <player> - return region geolocation
                                             return handleGeoLocationCommand(ctx, configManager, plugin, "region", true);
+                                        })
+                                )
+                        )
+                        .then(Commands.literal("countryCode")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation country <player> - return country geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "countryCode", true);
                                         })
                                 )
                         )
@@ -165,6 +199,40 @@ public class ConfigManager {
                                         .executes(ctx -> {
                                             // Handle /geoloc geolocation localTime <player> - return local time geolocation
                                             return handleGeoLocationCommand(ctx, configManager, plugin, "localTime", true);
+                                        })
+                                )
+                        )
+                        .then(Commands.literal("continent")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation localTime <player> - return local time geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "continent", true);
+                                        })
+                                )
+                        )
+                        .then(Commands.literal("continentCode")
+                                .then(Commands.argument("player", StringArgumentType.word())
+                                        .suggests((ctx, builder) -> {
+                                            // Get all online players and suggest them
+                                            plugin.getServer().getOnlinePlayers().forEach(player -> {
+                                                if (player.getName().toLowerCase().startsWith(builder.getRemainingLowerCase())) {
+                                                    builder.suggest(player.getName());
+                                                }
+                                            });
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(ctx -> {
+                                            // Handle /geoloc geolocation localTime <player> - return local time geolocation
+                                            return handleGeoLocationCommand(ctx, configManager, plugin, "continentCode", true);
                                         })
                                 )
                         )
@@ -230,12 +298,28 @@ public class ConfigManager {
                 messageKey = "command.location-region";
                 value = geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue;
                 break;
+            case "regionCode":
+                messageKey = "command.location-regionCode";
+                value = geoLocation.getRegionCode() != null ? geoLocation.getRegionCode() : defaultLocationValue;
+                break;
             case "country":
                 messageKey = "command.location-country";
                 value = geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue;
                 break;
+            case "countryCode":
+                messageKey = "command.location-countryCode";
+                value = geoLocation.getCountryCode() != null ? geoLocation.getCountryCode() : defaultLocationValue;
+                break;
             case "localTime":
                 messageKey = "command.location-time";
+                value = geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue;
+                break;
+            case "continent":
+                messageKey = "command.location-continent";
+                value = geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue;
+                break;
+            case "continentCode":
+                messageKey = "command.location-continentCode";
                 value = geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue;
                 break;
             case "full":
@@ -247,8 +331,11 @@ public class ConfigManager {
                         .replace("{player}", playerName)
                         .replace("{city}", geoLocation.getCity() != null ? geoLocation.getCity() : defaultLocationValue)
                         .replace("{region}", geoLocation.getRegion() != null ? geoLocation.getRegion() : defaultLocationValue)
+                        .replace("{countryCode}", geoLocation.getCountryCode() != null ? geoLocation.getCountry() : defaultLocationValue)
                         .replace("{country}", geoLocation.getCountry() != null ? geoLocation.getCountry() : defaultLocationValue)
-                        .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue);
+                        .replace("{localTime}", geoLocation.getLocalTime() != null ? geoLocation.getLocalTime() : defaultLocationValue)
+                        .replace("{continent}", geoLocation.getContinent() != null ? geoLocation.getContinent() : defaultLocationValue)
+                        .replace("{continentCode}", geoLocation.getContinentCode() != null ? geoLocation.getContinentCode() : defaultLocationValue);
 
                 Component locationMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(prefix + formattedMessage);
                 ctx.getSource().getSender().sendMessage(locationMessage);
