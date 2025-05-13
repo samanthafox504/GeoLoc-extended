@@ -235,7 +235,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
         // Splitting the fullRequest string into parts
         String[] parts = fullRequest.split(", ");
 
-        String localTime = parts.length > 3 ? parts[3] : DefaultLocationValueHandler.getDefaultLocationValue();
+        String localTime = parts.length > 7 ? parts[7] : DefaultLocationValueHandler.getDefaultLocationValue();
 
         // Retrieve formatted message from config
         String localTimeMessageTemplate = configManager.getMessage("placeholder.localTime");
