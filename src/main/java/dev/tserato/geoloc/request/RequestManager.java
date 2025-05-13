@@ -28,7 +28,6 @@ public class RequestManager {
         }
         return null;
     }
-
     public static String getFullGeoLocation(String ipAddress) {
         GeoLocation geoLocation = getGeoLocationData(ipAddress);
         if (geoLocation != null) {
